@@ -4,8 +4,7 @@
 
 A compact, production-minded example of building with LLMs: structured outputs, a provider-agnostic integration layer, graceful fallback, a CLI, batch processing, and a web UI.
 
-<!-- TODO: record a 20–30s screen capture, convert to GIF (LICEcap / ShareX), save as docs/demo.gif, and uncomment: -->
-<!-- ![Demo](docs/demo.gif) -->
+![Demo](docs/demo.gif)
 
 ---
 

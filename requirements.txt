@@ -1,0 +1,7 @@
+# Core tool runs in mock mode with NO dependencies (standard library only).
+# Install these only if you want live LLM calls or the Streamlit UI.
+
+python-dotenv>=1.0        # optional: load API keys from a .env file
+anthropic>=0.40           # optional: LLM_PROVIDER=anthropic
+openai>=1.40              # optional: LLM_PROVIDER=openai
+streamlit>=1.36           # optional: web UI (app.py)

@@ -1,0 +1,14 @@
+[
+  { "id": "TIC-1001", "text": "I forgot my password and now my account is locked after too many attempts. I have a client call in 30 minutes and can't log in." },
+  { "id": "TIC-1002", "text": "Outlook won't open on my laptop. It just hangs on 'loading profile'. I can see email fine on my phone." },
+  { "id": "TIC-1003", "text": "The VPN keeps disconnecting every few minutes when I work from home. It started this morning." },
+  { "id": "TIC-1004", "text": "I got an email saying my mailbox is full and asking me to click a link to verify my password. Looks a little off, is it real?" },
+  { "id": "TIC-1005", "text": "Our whole floor lost network access. Nobody in Accounting can reach any shared drives or the internet." },
+  { "id": "TIC-1006", "text": "My monitor won't turn on. The laptop works but the external screen on my docking station is black." },
+  { "id": "TIC-1007", "text": "Please install Adobe Acrobat Pro on my workstation. I need it to edit PDFs for onboarding paperwork." },
+  { "id": "TIC-1008", "text": "New hire starts Monday. Can you create their AD account and set up M365 (email, Teams, OneDrive)?" },
+  { "id": "TIC-1009", "text": "Teams keeps crashing when I try to share my screen in meetings. Restarting doesn't help." },
+  { "id": "TIC-1010", "text": "I think I clicked a phishing link in an email and entered my credentials. What should I do?" },
+  { "id": "TIC-1011", "text": "The shared printer on the 3rd floor shows offline for everyone. We have invoices that need printing today." },
+  { "id": "TIC-1012", "text": "Can I get access to the Finance SharePoint site? My manager approved it last week." }
+]

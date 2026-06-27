@@ -1,8 +1,8 @@
 # 🎫 IT Helpdesk Ticket Triage Bot
 
-> Turns a raw IT support ticket into a structured triage — **category, priority (P1–P4), suggested team, summary, and a draft first response** — using an LLM, with a zero-setup fallback so it runs offline.
+> An **AI application** that turns a raw support ticket into structured, actionable triage — **category, priority (P1–P4), routing, summary, and a draft reply** — using an LLM, with a zero-setup offline mode so it runs anywhere.
 
-Built by someone who spent 12+ years on enterprise IT support: this automates the first five minutes of every ticket so analysts spend their time resolving issues, not sorting them.
+A compact, production-minded example of building with LLMs: structured outputs, a provider-agnostic integration layer, graceful fallback, a CLI, batch processing, and a web UI.
 
 <!-- TODO: record a 20–30s screen capture, convert to GIF (LICEcap / ShareX), save as docs/demo.gif, and uncomment: -->
 <!-- ![Demo](docs/demo.gif) -->
@@ -11,7 +11,7 @@ Built by someone who spent 12+ years on enterprise IT support: this automates th
 
 ## The problem
 
-A service desk receives hundreds of tickets a day as free-form email or text. Before anyone can help, each one has to be read, categorized, prioritized, and routed to the right team — repetitive work that delays the actual fix. This tool does that triage step automatically and consistently.
+Support teams receive hundreds of free-form tickets a day. Before anyone can help, each one has to be read, categorized, prioritized, and routed — repetitive work that delays the fix. This app automates that first step consistently, and drafts a reply so the human starts from 80%, not zero.
 
 ## What it does
 
@@ -33,16 +33,23 @@ See [`sample_output.md`](sample_output.md) for real output across all 12 sample 
 ```
 ticket text ──> prompt builder ──> LLM (Claude / OpenAI) ──> JSON parser ──> triage result
                                         │
-                                        └── no API key? ──> deterministic mock classifier
+                                        └── no API key? ──> deterministic fallback classifier
 ```
 
 Three modes, selected by the `LLM_PROVIDER` environment variable:
 
-- **`mock`** (default) — keyword-based classifier, **needs no API key or dependencies**. Great for demos and offline testing.
+- **`mock`** (default) — rule-based classifier, **no API key or dependencies required**. Lets anyone run and demo the app instantly.
 - **`anthropic`** — Claude API (`ANTHROPIC_API_KEY`).
 - **`openai`** — OpenAI API (`OPENAI_API_KEY`).
 
-If a live call fails (bad key, no network), it logs a warning and **falls back to mock mode** instead of crashing.
+If a live call fails (bad key, no network, malformed output), it logs a warning and **falls back to mock mode** instead of crashing.
+
+## Engineering decisions
+
+- **Structured outputs over free text** — the model is constrained to a fixed JSON schema, with a tolerant parser that strips code fences and extracts the JSON object, so downstream code can rely on it.
+- **Provider-agnostic** — swapping Claude ↔ OpenAI is a single environment variable; the same abstraction you'd use to keep an app vendor-neutral.
+- **Fails safe** — the app degrades to a deterministic mode rather than erroring in front of a user.
+- **Domain-accurate taxonomy** — categories, priorities, and routing mirror how a real service desk actually triages (informed by hands-on IT operations experience).
 
 ## Quick start
 
@@ -75,32 +82,27 @@ streamlit run app.py
 
 ## Tech stack
 
-`Python` · `Anthropic / OpenAI APIs` · `argparse CLI` · `Streamlit` (optional UI) · standard-library `csv`/`json`
+`Python` · `Anthropic / OpenAI APIs` · `LLM prompt engineering` · `argparse CLI` · `Streamlit` · standard-library `csv`/`json`
 
 ## Project structure
 
 ```
 triage.py           # core logic + CLI (single ticket & batch)
-app.py              # optional Streamlit UI
+app.py              # Streamlit UI
 sample_tickets.json # 12 realistic sample tickets
-sample_output.md    # example results (mock mode)
+sample_output.md    # example results
 requirements.txt    # optional dependencies
 .env.example        # configuration template
 ```
 
-## What I learned / design notes
-
-- **Reliability first:** structured JSON with a parsing fallback, and graceful degradation to mock mode so the tool never hard-fails in front of a user.
-- **Domain-driven taxonomy:** categories, priorities, and team routing mirror how a real service desk actually triages.
-- **Provider-agnostic:** swapping Claude ↔ OpenAI is one environment variable — the same pattern used when integrating LLMs into enterprise tools.
-
-## Roadmap / stretch ideas
+## Roadmap
 
 - Pull tickets straight from an Outlook inbox or a Freshdesk/Jira queue (free tiers).
-- A Power Automate version of the same flow (no-code), documented side-by-side.
+- A no-code version of the same flow in Power Automate / Make, documented side-by-side.
 - Confidence-based routing: auto-resolve high-confidence FAQs, escalate the rest.
+- Deploy the Streamlit app so it can be tried live.
 
 ---
 
-**Author:** Roger Perez — IT Operations → AI/Automation · Miami, FL
+**Author:** Roger Perez — AI Solutions Builder (LLM apps · Low-Code/No-Code) · Miami, FL
 MIT licensed.
